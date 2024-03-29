@@ -7,8 +7,6 @@ Definitions
 Disk Organization
 -----------------
 
-#### Disk Layout
-
 ### Superblock
 
 #### Superblock Structure
