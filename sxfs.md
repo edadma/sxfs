@@ -6,7 +6,7 @@ Definitions
 
 ### Blocks
 
-An *sxfs* formated device or partition is divided into small groups of sectors called “blocks”. The size of the blocks is determined when formatting and is encoded in the *superblock* as `s_log_block_size`. Block sizes are powers of 2 times 1024.
+An *sxfs* formated device or partition is divided into small groups of sectors called “blocks”. The size of the blocks is determined when formatting and is encoded in the *superblock* as `s_log_block_size`. Block sizes are powers of 2 times 512.
 
 Disk Organization
 -----------------
@@ -36,11 +36,11 @@ Disk Organization
 
 ### Block Bitmap
 
-The number of blocks in the block bitmap is `floor(s_blocks_count/8/(1024<<s_log_block_size))`.
+The number of blocks in the block bitmap is `ceil(s_blocks_count/8/(512<<s_log_block_size))`.
 
 ### Inode Bitmap
 
-The number of blocks in the inode bitmap is `floor(s_inodes_count/8/(1024<<s_log_block_size))`.
+The number of blocks in the inode bitmap is `ceil(s_inodes_count/8/(512<<s_log_block_size))`.
 
 ### Inode Table
 
@@ -48,7 +48,7 @@ The inode table uses 1-based indexing so that 0 can be used as a sentinel value.
 
 The first inode (index 1) is the "bad block" file. The second inode (index 2) is the root directory.
 
-The number of blocks in the inode table is `floor(s_inodes_count*64/(1024<<s_log_block_size))`.
+The number of blocks in the inode table is `ceil(s_inodes_count*64/(512<<s_log_block_size))`.
 
 #### Inode Structure
 
