@@ -6,7 +6,7 @@ Definitions
 
 ### Blocks
 
-An *sxfs* formated device or partition is divided into small groups of sectors called “blocks”. The size of the blocks is determined when formatting and is encoded in the *superblock* as `s_log_block_size`. Block sizes are powers of 2 times 512.
+An *sxfs* formatted device or partition is divided into small groups of sectors called “blocks”. The size of the blocks is determined when formatting and is encoded in the *superblock* as `s_log_block_size`. Block sizes are powers of 2 times 512.
 
 Disk Organization
 -----------------
