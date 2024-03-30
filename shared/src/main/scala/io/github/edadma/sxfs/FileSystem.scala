@@ -48,6 +48,9 @@ object FileSystem:
     true
   end format
 
+  def create: Int =
+
+
   def check(disk: Disk): Boolean = false
 
 class FileSystem(disk: Disk):
