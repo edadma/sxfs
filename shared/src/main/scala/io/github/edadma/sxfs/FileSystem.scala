@@ -19,12 +19,11 @@ object FileSystem:
       logBase2(disk.blockSize / MIN_BLOCK_SIZE) match
         case s if s.isWhole => s.toInt
         case _              => return false
-    val s_blocks_count  = disk.diskSize
-    val blockBitmapSize = ceil(s_blocks_count / 8 / disk.blockSize).toInt
-    val inodeBitmapSize = ceil(s_inodes_count / 8 / disk.blockSize).toInt
-    val inodeTableSize  = ceil(s_inodes_count * INODE_SIZE / disk.blockSize).toInt
-    val s_first_data_block =
-      1 + blockBitmapSize + inodeBitmapSize + inodeTableSize
+    val s_blocks_count     = disk.diskSize
+    val blockBitmapSize    = ceil(s_blocks_count / 8 / disk.blockSize).toInt
+    val inodeBitmapSize    = ceil(s_inodes_count / 8 / disk.blockSize).toInt
+    val inodeTableSize     = ceil(s_inodes_count * INODE_SIZE / disk.blockSize).toInt
+    val s_first_data_block = 1 + blockBitmapSize + inodeBitmapSize + inodeTableSize
 
     buf
       .putInt(s_inodes_count)
