@@ -21,7 +21,7 @@ def dump(array: Array[Byte], start: Int = 0, end: Int = Int.MaxValue): Unit =
     for i <- 0 until length do
       val ch = array(index + i).toChar
 
-      print(if i < offset || ch < ' ' || ch > '~' then " " else ch)
+      print(if i < offset || ch < ' ' || ch > '~' then '.' else ch)
     end for
 
     println
