@@ -10,7 +10,7 @@ def dump(array: Array[Byte], start: Int = 0, end: Int = Int.MaxValue): Unit =
     for i <- 0 until length do
       print(
         if i < offset then "   "
-        else "%02x ".format(array(index + i)).toUpperCase,
+        else "%02x ".format(array(index + i) & 0xff).toUpperCase,
       )
 
       if i == 3 then print(" ")
@@ -19,7 +19,7 @@ def dump(array: Array[Byte], start: Int = 0, end: Int = Int.MaxValue): Unit =
     print("  ")
 
     for i <- 0 until length do
-      val ch = array(index + i).toChar
+      val ch = (array(index + i) & 0xff).toChar
 
       print(if i < offset || ch < ' ' || ch > '~' then '.' else ch)
     end for
