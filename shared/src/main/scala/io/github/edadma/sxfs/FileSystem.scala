@@ -4,6 +4,9 @@ import java.nio.ByteBuffer
 import scala.math.ceil
 
 object FileSystem:
+  val MIN_BLOCK_SIZE = 512
+  val INODE_SIZE     = 64
+
   def format(disk: Disk): Boolean =
     def logBase2(x: Double): Double = math.log(x) / math.log(2)
     def unixTime                    = (System.currentTimeMillis / 1000).toInt
@@ -13,16 +16,13 @@ object FileSystem:
 
     val s_inodes_count = disk.blockSize * disk.diskSize * 10 / 100
     val s_log_block_size =
-      logBase2(disk.blockSize / 512) match
+      logBase2(disk.blockSize / MIN_BLOCK_SIZE) match
         case s if s.isWhole => s.toInt
         case _              => return false
-    val s_blocks_count = disk.diskSize
-    val blockBitmapSize =
-      ceil(s_blocks_count / 8 / (512 << s_log_block_size)).toInt
-    val inodeBitmapSize =
-      ceil(s_inodes_count / 8 / (512 << s_log_block_size)).toInt
-    val inodeTableSize =
-      ceil(s_inodes_count * 64 / (512 << s_log_block_size)).toInt
+    val s_blocks_count  = disk.diskSize
+    val blockBitmapSize = ceil(s_blocks_count / 8 / disk.blockSize).toInt
+    val inodeBitmapSize = ceil(s_inodes_count / 8 / disk.blockSize).toInt
+    val inodeTableSize  = ceil(s_inodes_count * INODE_SIZE / disk.blockSize).toInt
     val s_first_data_block =
       1 + blockBitmapSize + inodeBitmapSize + inodeTableSize
 
@@ -48,15 +48,13 @@ object FileSystem:
 
   def check(disk: Disk): Boolean = false
 
-type Inode = Int
-
 class FileSystem(disk: Disk):
   private val data = new Array[Byte](disk.blockSize)
   private val buf  = ByteBuffer.wrap(data)
 
-//  def create: Inode
-//  def remove(inode: Inode): Boolean
-//  def stat(inode: Inode): Long
+//  def create: Int
+//  def remove(inode: Int): Boolean
+//  def stat(inode: Int): Long
 //
-//  def read(inode: Inode, data: Array[Byte], length: Long, offset: Long): Int
-//  def write(inode: Inode, data: Array[Byte], length: Long, offset: Long): Int
+//  def read(inode: Int, data: Array[Byte], length: Long, offset: Long): Int
+//  def write(inode: Int, data: Array[Byte], length: Long, offset: Long): Int
