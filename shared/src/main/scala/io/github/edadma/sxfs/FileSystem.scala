@@ -6,6 +6,7 @@ import scala.math.ceil
 object FileSystem:
   val MIN_BLOCK_SIZE = 512
   val INODE_SIZE     = 64
+  val SUPERBLOCK     = 0
 
   def format(disk: Disk): Boolean =
     def logBase2(x: Double): Double = math.log(x) / math.log(2)
@@ -38,10 +39,11 @@ object FileSystem:
       .putShort(100)    // s_max_mnt_count
       .putShort(0x1234) // s_magic
       .putShort(0)      // s_state
-      .putShort(0)      // s_lastcheck
-      .putShort(0)      // s_checkinterval
-      .putShort(10)     // s_creator_os
-      .putShort(0)      // s_rev_level
+      .putInt(0)      // s_lastcheck
+      .putInt(0)      // s_checkinterval
+      .putInt(10)     // s_creator_os
+      .putInt(0)      // s_rev_level
+    disk.write(SUPERBLOCK, data)
 
     true
   end format
